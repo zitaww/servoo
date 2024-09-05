@@ -3,7 +3,7 @@ name: Execute SSH Commands
 on:
   workflow_dispatch: # 手动触发工作流
   schedule:
-    - cron: "30 0,13 * * *"  # 每天 北京时间 早8点30分 晚9点30分 各运行一次
+    - cron: "0 6 * * *"  # 每天 北京时间 早8点30分 晚9点30分 各运行一次
 
 jobs:
   execute-commands:
@@ -30,7 +30,7 @@ jobs:
             ssh=$(echo "$account" | jq -r '.ssh')
 
             echo "echo \"Executing for $username@$ssh\"" >> sshpass.sh
-            echo "sshpass -p '$password' ssh -o StrictHostKeyChecking=no '$username@$ssh' 'bash <(curl -s https://raw.githubusercontent.com/cmliu/socks5-for-serv00/main/check_cron.sh)'" >> sshpass.sh
+            echo "sshpass -p '$password' ssh -o StrictHostKeyChecking=no '$username@$ssh' 'bash <(curl -s https://raw.githubusercontent.com/zitaww/servoo/main/check_cron.sh)'" >> sshpass.sh
           done < <(jq -c '.[]' accounts.json)
           chmod +x sshpass.sh
 
